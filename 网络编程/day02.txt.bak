@@ -1,0 +1,303 @@
+tcp
+udp
+1.当一端退出时，另一端如果阻塞在，此时recv会立即结束阻塞，返回字符串
+2.如果另一端退出，此时再试图调用send向其发送时会出现
+  BrokenPipeError异常
+ 3.一个监听套接字可以同时连接多个客户端套接字
+
+网络收发缓冲区
+send和recv实际上是向缓冲区发送和接收内容
+只要缓冲区有内容recv就会接收，直到缓冲区为空
+协调网络消息的收发速度
+
+tcp粘包
+产生原因：
+1.多次发送的消息被一次接受
+2.tcp消息以字节流的方式传输，没有消息边界
+影响：如果每次发送的内容是一个独立含义的个体
+ 粘包会产生一定影响
+
+处理粘包：
+1.消息结尾添加边界
+2.发送消息采取延迟策略
+3.将消息结构化处理
+
+基于udp套接字的服务端
+服务端
+1.创建数据报套接字
+   sockfd = socket(AF_INET,SOCK_DGRAM)
+2.绑定地址
+  sockfd.bind(addr)
+3.收发消息
+  data,addr = sockfd.recvfrom(buffersize)
+  功能：接受数据报消息
+  参数：一次最多接收消息的大小(字节)
+  返回值：data 接收到的内容
+          addr 消息发送者的地址
+  n = sockfd.sendto(data,addr)
+  功能：发送数据报消息
+  参数：data 要发送的消息 bytes
+        addr 发送消息的目标地址
+   返回值：发送的字节数
+
+4.关闭套接字
+  socked.close()
+
+客户端：
+1.创建数据报套接字
+2.收发消息
+3.关闭套接字
+
+sys.argv:接收命令行参数
+将命令行参数以字符串形式收集为一个列表
+
+tcp和udp套接字编程差别
+1.流式套接字是以字节流的方式传输数据，
+  数据报套接字以数据报方式传输
+2.tcp套接字会有粘包，但是udp套接字有
+  消息边界不会粘包
+3.tcp套接字保证传输的可靠性，udp套接字无法保证
+4.tcp套接字使用listen accept进行连接，udp则不需要
+5.tcp套接字使用recv，send收发消息，udp则用recvfrom，sendto
+
+补充函数：
+   sendall(data) 
+   功能参数send相同
+   返回值：发送成功返回None，失败产生异常
+
+socket
+套接字对象的属性
+sockfd.type  套接字类型
+sockfd.family 套接字地址族类型
+
+sockfd.getsockname 获取套接字绑定地址
+
+sockfd.fileno() 获取套接字的文件描述符
+
+文件描述符:
+   系统中每一个IO操作都会被分配一个整数的
+    文件描述符，用于系统区分不同的IO操作。
+    文件描述符具有唯一性。
+    f = open('tcp_client.py')
+    f 句柄
+    0 标准输入
+    1 标准输出
+    2 标准错误
+sockfd.getpeername() 获取连接套接字客户端地址
+
+sockfd.setsockopt(level,option,value)
+功能：设置套接字选项功能
+参数：level 选项级别 SOL_SOCKET
+      option 每个选项类别对应的子选项
+      value  对选项设置值
+      so_reuseaddr 端口立刻能重用
+**设置最好紧跟在套接字创建之后
+
+sockfd.getsockopt(level,option)
+功能：获取套接字选项值
+参数：level 选项级别 SOL_SOCKET
+      option 每个选项类别对应的子选项
+返回值：选项的值
+
+udp应用之广播
+
+广播：一点发送，多点接收
+广播地址：每个网段最大的地址为广播地址
+
+设置套接字可以发送接收广播
+s.setsockopt()
+设置套接字可以发送接收广播
+s.setsockopt(SOL_SOCKET,SO_BROADCAST)
+
+tcp套接字应用之HTTP传输
+
+http协议 (超文本传输协议) 应用层协议
+
+用途：网页的获取
+      数据的传输
+http协议的特点：
+  1.应用层协议，传输层使用tcp传输
+  2.简单、灵活，很多语言都有http专门的接口
+  3.无状态的协议，不记录用户的请求内容
+  4.请求方法多样，支持数据全面
+
+网页请求流程
+1.客户端(浏览器)通过tcp传输发送http请求给服务端
+2.服务端(http服务器)接收到http请求进行解析
+3.服务端处理具体的请求内容组织数据(网站后端)
+4.服务端将数据以http响应的格式发送给客户端
+5.客户端接收到服务器响应数据，进行解析展示
+
+http请求 (request)
+   请求格式：
+     记住）请求行：具体的请求类别和请求内容
+                 格式：GET      /    HTTP/1.1
+		       类别    内容   协议版本
+		  类别：每种类别代表要做不同的事
+		  GET  获取网络资源
+		  POST 提交一定的信息，得到反馈
+		  HEAD 只获取响应头
+		  PUT  更新服务器资源
+		  DELETE 删除服务器资源
+		  CONNECT 
+		  TRACE  测试
+		   OPTIONS 获取服务器信息
+
+           请求头：对请求内容的基本描述
+
+	   空行
+
+	   请求体：请求参数或者提交内容
+********************************************
+
+from socket import *
+s = socket()
+s.bind(('0.0.0.0',8888))
+s.listen(3)
+
+c,addr = s.accept()
+
+f = open('xx','wb')
+while True:
+    data = c.recv(1024)
+    if not data:
+        break
+    f.write(data)
+f.close()
+c.close()
+s.close()
+
+
+from socket import *
+s = socket()
+s.connect(('127.0.0.1',8888))
+f = open('image.pg','rb')
+while True:
+    data = f.read
+    if not data:
+        break
+    s.send(data)
+f.close()
+s.close()
+
+http(响应)(response)
+
+  响应的格式：（重要的是响应行和响应体）
+     响应行：反馈基本的响应情况
+            格式：HTTP/1.1   200     0k
+	         协议版本    响应吗   附加信息
+	     响应吗：代表不同的情况
+	     1xx 请求被接收
+	     2xx 响应成功
+	     3xx 响应需要进一步操作 重定向
+	     4xx 客户端请求错误 401访问权限不够
+	     5xx 服务器未知异常
+     响应头：对响应信息的基本描述
+     空行
+     响应体：要给客户端回发的内容
+  要求：1.什么是http协议，那一层，用tcp还是udp传输
+       2.http协议常见的应用场景
+       3.网页获取的流程
+       4.http协议请求和响应的格式，及每部分功能
+       5.常见的请求类型和响应含义
+IO 类型
+  input and output
+  在内存中存在数据交互的操作都认为是IO操作
+  
+  和终端交互：inpute print
+  和磁盘交互：read write pymysql
+  和网络交互：recv send 
+  都是速度慢，效率低
+
+  计算密集型程序(cpu密集型):程序中计算较多，IO操作较少
+                            cpu消耗大，运行速度
+  IO密集型程序：在程序执行中存在大量IO操作，而cpu运算
+                较少，cpu消耗很低，耗时较长
+
+ IO分类：
+   阻塞IO  非阻塞IO  IO多路复用   
+
+   阻塞IO是IO的默认形态，是效率较低的一种IO情形
+   阻塞情况：
+     * 因为某种条件没有达成造成的函数阻塞
+       accept recv recvform input
+     *因为处理IO事件较长形成的阻塞行为
+       网络延迟  大文件读写
+
+     非阻塞IO：
+        *将原本阻塞的IO函数通过设置属性使其变为非阻塞
+	sockfd.setblocking(bool)
+	功能：将套接字设置为非阻塞IO
+	参数：默认为True 表示阻塞状态
+	    设置为False 则表示为非阻塞状态
+	    则sockfd调用函数时不阻塞
+	*超时检测：即设置一个最长的等待时间，超时则不再阻塞等待
+	  规定一个等待时常
+	  sockfd.settimeout(sec)
+	  功能：设置套接字的超时检测时间
+	  参数：时间秒
+	  #在阻塞状态下设置超时检测
+		
+      IO多路复用
+       定义：同时监控多个IO事件，当哪个IO事件准备就绪就执行哪个IO
+          事件。以此形成可以同时操作多个IO的行为，避免一个IO阻塞
+	   造成其他IO都不可执行的形态，提高IO运行效率
+       就绪IO：表示一种临界状态，即该IO已经发生，由内核交由应用程序处理
+
+       具体方案：
+        1.系统支持
+	  select : Windows Linux Unix
+	  poll : Linux  Unix
+	  epoll: Linux
+        2.python
+	   import select
+
+	   select方法
+	   rs,ws,xs = select(rlist,wlist,xlist[,timeout])
+	   功能：监控IO事件，阻塞等待IO事件发生
+	   参数：rlist 列表  想要关注的等待发生的IO事件
+	         wlist 列表  想要关注的可以主动处理的IO
+		 xlist 列表  想要关注的出现异常去处理的IO
+		 timeout 超时时间
+           返回值：select(rlist, wlist, xlist[, timeout]) -> (rlist, wlist, xlist)
+
+                 rs：列表  rlist 中准备就绪的事件
+		 ws：列表  wlist 中准备就绪的事件
+		 xs：列表  xlist 中准备就绪的事件
+	
+	基于select IO多路复用的tcp服务端
+	   步骤：1.将关注的IO放入对应类别的列表
+	         2.通过select函数进行IO监控
+		 3.当IO事件发生时遍历select返回值列表
+		 4.处理发生的IO
+    注意：wlist 中如果有IO事件则会立即返回到返回值中
+         在IO处理中不宜出现死循环等长期占有服务端的
+	 情况
+
+	 IO多路复用占用计算机资源较少，效率较高
+
+	 1.熟练select服务端程序
+	 2.熟练httpserver
+	 3.复习类(继承,super,__init__)
+	 4.编写一个select 服务，要求监听客户端的连接，
+	   客户端发送的内容，以及从终端输入的内容。
+	   将客户端发送过来的内容和终端输入的内容
+	   全部备份到一个文件里。
+	   sys.stdin  标准输入流
+
+		 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,108 @@
+ GIT 代码协同管理工具
+    代码管理工具作用：
+       *防止代码丢失，做代码备份
+       *代码的版本控制，可以设置多个节点，在多个版本间切换
+       * 可以方便团队开发，更好的做代码管理
+       *方便产品的迭代
+
+       什么是git
+          git 是一个开源的分布式控制系统，可用于高效的管理大小项目
+
+	  分布式：每个节点都保存完整代码，没有明确的中央服务器，节点之间相互推送共享代码
+
+	  集中式：代码由中央服务端集中管理，为每个节点分配权限，每个节点同一上传到中央服务器
+	                 或从服务器下载。
+
+	git 安装
+	pip sudo apt-get install git
+
+	git 配置命令
+
+	git config
+ 配置级别
+   1.系统中所有用户都可以使用该配置
+      命令： git config --system
+	配置文件： /etc/gitconfig
+
+   2.当前用户可使用该配置
+     命令： git config --global
+     配置文件：~/.gitconfig
+
+    3.当前项目可使用该配置 ,必须在项目目录下执行
+      命令： git config 
+       配置文件： project/.git/configs
+
+       1.配置用户名
+        e.g.  配置用户名
+	  git config --global user.name = sd
+
+	  2.配置邮箱
+sudo git config --system user.email 2@qq.com
+
+      3.配置编译器
+       git config core.editor vscode
+
+       4.查看项目配置
+        git config --list
+
+   git 的基本命令
+     1.初始化仓库
+      git init 
+       * 在某个目录下初始化仓库后自动产生.git 目录。则该目录变为一个
+        git 仓库， 在该目录下的所有文件可以使用git 管理
+
+	工作区：
+	   用于用户对项目文件的各种直接操作，即项目目录操作。
+
+	   暂存区：用于记录用户对工作区的各种修改，以便同步到本地仓库中。
+
+	   git仓库：用于存储备份工作区的内容，方便git 进行管理
+
+	 2.查看分支状态
+	  git status 
+	         分支：在仓库中一个独立的工作环境，不影响其他分支操作
+		 git 仓库 初始默认工作分支叫做 master
+
+          3.文件提交 到暂存区
+	    git add  [file]
+	    *可以一次提交多个文件或者单个文件，或者*表示所有文件。
+	    （隐藏文件必须指明不能用*）
+	    提交内容可以是普通文件也可以是目录
+	    暂存区只是工作区的提交修改记录，并不是将文件备份存储
+            
+	    取消某个文件的暂存记录
+	    git rm --cached wendu.py
+
+	    4.将文件同步到本地git 仓库
+	    git commit -m "some message"
+
+	    *同步要添加说明，只能同步已提交到暂存区的内容
+
+   将仓库文件恢复到工作区
+   git checkout -- wendu.py
+
+   5.查看 commit 日志
+       git log 
+       git log --pretty=oneline
+
+     6.查看本地文件和仓库差异
+      git diff [file]
+
+7.从仓库恢复文件到工作区
+git checkout [file]
+
+8.文件的移动和删除
+   
+   git mv [file]
+   git rm [file]
+   *与 add 操作相同，即将文件移动删除提交到暂存区
+
+
+
+
+
+
+
+
+
+

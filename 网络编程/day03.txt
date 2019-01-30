@@ -1,0 +1,7 @@
+3.套接字属性
+ fileno()
+ getpeername()
+ setsockopt()
+
+ http协议  tcp套接字的应用
+ 应用层协议
