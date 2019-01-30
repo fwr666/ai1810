@@ -1,0 +1,118 @@
+生成器函数：
+　　含有yield 语句的函数是生成器函数，此函数被调用
+将返回一个生成器对象
+　　yield 翻译为生成
+yield 语句
+　　语法：
+　　　　yield 表达式
+　　说明：
+　　　　yield 用于def 函数中，目的是将此函数作为生成器函数
+使用
+　　yield 用来生成数据，供迭代器的next（it）函数使用
+
+生成器函数说明：
+　　生成器函数调用将返回一个生成器对象，生成器对象是一个
+可迭代对象，生成器对象通常是一次性的，通常不可重复使用
+在生成器函数调用return 会触发一个StopIteration异常
+即（生成数据结束）
+
+生成器表达式
+　语法：
+　(表达式 for 变量 in 可迭代对象 [if 政治表达式])
+说明：
+　　if 子句的部分可以省略
+作用：
+　　用推导式形式创建新的生成器
+
+生成器说明:
+  生成器即是可迭代对象,同时它自身也是迭代器
+
+生成器对象，本身也是可迭代对象 
+
+生成器皮包公司，二道贩子
+
+
+生成器有两种：
+    生成器函数
+    生成器表达式
+
+迭代工具函数：
+　迭代工具函数的作用是返回一个可迭代对象
+
+函数：　　                      说明
+zip(iter1,iter2,iter3,...)    返回一个zip生成器对象
+此对象生成一个元组，此元组中的数据分别来自于
+iter1 ,iter2,...可迭代对象提供的数据个数
+由最小的可迭代对象参数决定
+enumerate(iterable,start=0)创建一个enumerate生成器
+对象，此对象生成类型为(索引,值)对的元组，默认索引是从零
+开始，也可以用start指定
+
+numerate　函数示例：
+　　
+
+
+
+
+容器：
+　　列表list　字符串 str 字典　元组tuple 集合set
+ 固定集合 frozenset
+
+
+序列：
+　str,list,tuple,bytes,bytearray
+
+字节串 bytes 和字节数组 bytearray
+字节穿(也叫字节序列) bytes
+
+作用：
+　　存储以字节为单位的数据
+　　字节串是不可变的字节序列
+字节(byte)
+　　字节是由8个位(bit)　组成的存储单元
+
+bytes()生成一个空的字节串　等同于b''
+bytes(整数可迭代对象) 可迭代对象生成一个字节串 
+bytes(整数n)
+>>> bytes(20)
+b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+
+
+
+
+
+
+
+bytes(字节串,encoding='utf-8')用字符串的转换编码生成一个字节串
+
+bytes 的运算：
+　　+  +=  *  *=
+  <   <=   >   >=   ==   !=
+  in / not in 
+
+
+  能够用于字节串和字节数组的函数：
+  　　len(x) max(x) min(x) sum(x) any(x)  all(x)
+
+bytes 与 str 的区别：
+  bytes 存储字节(0~255的整数)
+  str 存储UNICODE字符(0~65535~0xFFFF的整数)
+
+bytes 与 str 转换
+  编码(endode)
+　str ------->  bytes
+       b = s.encode(encoding='utf-8')
+    
+    解码(decode)
+
+bytes --------->str  
+      s = b.decode(encoding='utf-8')
+
+bytearray 除了可变外，其余同bytes
+
+
+
+
+
+
+

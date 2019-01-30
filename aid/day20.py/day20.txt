@@ -1,0 +1,155 @@
+面向对象编程语言：
+　　继承
+　　封装
+　　多态
+
+封装：
+　　__开头的标识符(属性，方法)
+私有成员，
+
+多继承
+　　一个子类继承自两个或两个以上的父类(基类)
+
+解决标识符冲突问题:
+  __mro__属性
+  　　用mro显示调用相应的方法:
+       super(类名,对象).方法名()
+
+钻石继承
+  
+函数重写
+  内建函数：
+    repr(x)    def __repr__(self):     更容易通信
+    srt(x)         __str__(self)
+    abs(x)
+    len(x)
+    revered(x)
+    round(x)
+    int(x)
+    float(x)
+    complex(x)
+    bool(x)   __bool__ __len__ True
+
+属性管理函数：
+　hasattr(obj,name)
+  getattr(obj,name[,default])
+setattr(obj,name,value)
+delattr(obj,name)
+
+可迭代对象：
+
+
+issubclass(cls,类或元组)
+
+day20 笔记
+　异常(高级)
+   异常语句回顾:
+     try-except  捕获异常(得到异常通知),把程序由异常状态
+    转为正常状态
+      try-finally  执行必须要执行的语句
+      raise
+      assert
+
+with 语句
+  语法:
+    with 表达式1 [as 变量1], 表达式2 [as 变量2],...
+  作用：
+  　　使用于对资源进行访问的场合，确保使用过程中不管是
+  否发生异常，都会执行必要的清理操作，并释放资源。
+  　如
+
+
+    with 语句不该变异常状态
+
+    环境管理器
+    　　类内有__enter__和__exit__实例方法的类
+    创建的实例称为环境管理器
+    能够用with 进行管理的对象必须是环境管理器
+    __enter__将在进入with语句时被调用并返回
+    由as 变量管理的对象
+    __exit__将在离开with语句时被调用，可以用参数来判断
+    在离开with 语句时是否有异常发生并做出相应的处理
+
+运算符　重载
+ 什么是运算符重载:
+   让自定义的类创建的对象(实例)能够使用运算符进行操作
+
+   作用：
+   　让自定义的类创建的对象(实例)能够使用运算符进行操作
+   让程序简洁易读
+   　对自定义的对象将运算符赋予新的规则
+   
+   算术运算符重载
+   　方法名　　　　　　运算符表达式　　　　　　　说明
+   __add__(self)
+
+   java 可以用方法实现加法
+
+运算符重载说明：
+　　运算符重载的方法及参数已经在固定的定义，不建议
+改变原有的含义
+
+反向算术运算符重载
+　　当运算符的左侧为内建类型时，右侧为自定义类型进行算术运算符运算时，会
+出现TypeError 错误
+
+２．因无法修改　内建类的对应方法来实现运算符重载，此时需要使用反向
+　　算术运算符的重载来完成重载
+
+   　　算术运算符重载
+  方法名                     运算符和表达式  说明
+ __radd__(self, lhs)         lhs +  self  加法
+ __rsub__(self, lhs)         lhs -  self  减法
+ __rmul__(self, lhs)         lhs *  self  乘法
+ __rtruediv__(self, lhs)     lhs /  self  除法
+ __rfloordiv__(self, lhs)    lhs // self  地板除
+ __rmod__(self, lhs)         lhs %  self  求余(取模)
+ __rpow__(self, lhs)         lhs ** self  幂运算
+
+ 复合赋值运算符的重载
+　　　１．以符合赋值算术运算符 x += y 为例，此运算符会优先调用
+       x.__iadd__()方法，如果没有__iadd__()方法时，会将复合赋值
+       运算符 x += y 拆解为 x = x.__add__(y)方法,
+       如果再不存在__add__方法,会触发TyepeError 
+
+    比较运算符的重载
+    little than
+    little equal
+    greater than
+
+in / not in 运算符重载
+方法：
+　　def __contains__(self,e)
+      return 真值或假值
+
+索引和切片运算符重载
+  方法名　　　　         运算符和表达式　  　　说明
+  __getitem__(self,i)  x = self[i]      索引和切片取值
+  __setitem__(self,i,v) self[i]=v         索引／切片赋值
+  __delitem__(self,i)     def self[i]      删除索引/切片
+
+  作用：
+  　让自定义类型的对象能够支持索引和切片操作
+
+  slice 构造函数：
+  　　格式：
+  　slice(start=None,stop=None,step=None)
+  作用：
+  　　创建一个slice 切片对象，此对象存储一个切片的起始值，终止值和步长信息
+  slice 对象的属性
+   s.start 
+   s.stop
+   s.step
+
+特性属性　@property
+   实现其他语言所拥有的getter  setter 功能
+
+   作用：　
+   　　通过模拟一个属性
+   通过@property  装饰器可以模拟属性的赋值和取值加以控制
+   
+
+
+
+
+

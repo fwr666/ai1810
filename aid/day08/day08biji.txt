@@ -1,0 +1,360 @@
+字典　dict
+
+
+ 可变的　无序的，容器
+
+ 键(key) - 值(value)　对
+ (不可变)- -(任意类型)
+
+ 创建方式：
+ 　　字面值
+ 　　构造函数
+ 　　　dict(),dict(可迭代对象)，dict(关键字传参)
+   推导式：
+   　　｛键表达式　for 变量　1　in 可迭代对象 if 真值表｝
+
+   添加和修改字典的键值对
+   d[键] = 值表达式
+    
+     删除的键
+     　del d[键]
+
+     查看字典的键对应的值
+       value = d[键]
+
+    字典是可迭代对象(可以迭代取出字典的键)
+
+    可迭代对象可以用在的地方
+    　　for 变量　in 可迭代对象　:
+
+    函数：
+
+    方法:
+    D.clear() D.pop(key) D.update(d2)
+    D.copy()  浅拷贝
+    D.get(key,default = None)  #D[key]
+    D.keys()    #返回键的可迭代对象
+    D.values()  #返回值的可迭代对象
+    D.items()  #返回（键－值）元组的可迭代对象
+
+    day08笔记：
+    　　集合 set
+      集合是可变的容器
+      集合内的数据对象都是唯一的）
+      集合是无序的存储结构，集合中的数据没有先后顺序关系
+      集合内的元素必须是不可变对象
+      集合是可迭代对象
+      集合是相当于只有键没有值的字典（键是集合的数据）
+
+创建空集合：
+　　set()
+创建非空集合的字面值：
+　　s = {1,2,3}
+集合的构造（创建）函数 set
+ set()  创建一个空集合　注意：不能用{}来创建空集合
+ set(iterable) 用可迭代对象创建一个新的集合对象
+ 示例:
+>>> s = set('abc')
+>>> s
+{'a', 'c', 'b'}
+  
+>>> s
+set()
+  
+>>> s = {'abcabc'}
+>>> s
+{'abcabc'}
+
+>>> s = set({1:'a',2:'b'})
+>>> s
+{1, 2}
+
+>>> s = {1,2,'ab',None}
+>>> s
+{1, 2, 'ab', None}
+
+>>> set([True,False,1,0,None])
+{False, True, None}
+
+>>> set(('abc','123',123))
+{'123', 123, 'abc'}
+
+>>> s = {True,None,[1,2,3]}
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unhashable type: 'list'
+
+>>> s = {1,2,{1:3}}
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unhashable type: 'dict'
+
+>>> s = {1,2,{2,1}}
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unhashable type: 'set'
+
+集合的运算：
+　　交集&,并集|,补集-,对称补集^,子集<, 超集 >
+
+交集　生成两个集合的交集
+>>> s1 = {1,2,3}
+>>> s2 = {2,3,4}
+>>> s1&s2
+{2, 3}
+
+>>> s1
+{1, 2, 3}
+>>> s2
+{2, 3, 4}
+
+交集
+>>> s1|s2
+{1, 2, 3, 4}
+
+补集
+>>> s1-s2
+{1}
+
+对称补集
+>>> s1^s2
+{1, 4}
+
+== !=  集合相同或不同
+s1 = {1,2,3}
+s2 = {3,2,1}
+s1 == s2#True
+s2 != s1#False
+
+其他：
+ <=  >=  
+ &= 相当于　　　　　
+  |= 　　　　　　
+   ^=
+
+>>> s2
+{3, 4}
+>>> s1 = {1,2}
+>>> s1|=s2
+>>> s1
+{1, 2, 3, 4}
+
+in /not in
+同列表
+
+集合相关的函数：
+　　len(x)  max(x) min(x)
+   sum(x) any(x)  all(x)
+
+练习：
+　　经理：曹操，刘备，孙权
+　　技术员：曹操，孙权，张飞，关羽
+
+方法
+　
+
+集合推导式：
+　　集合推导式是用可迭代对象创建集合的表达式
+
+语法：
+　{表达式 for 变量 in 可迭代对象 [if 真值表达式]}
+
+示例：
+    L = [1,2,3,4,45,63,3,1,3,4]
+　　s = {x ** 2 for x in L}
+    print(s)
+
+ 集合推导式的嵌套：
+ 　　嵌套规则与列表的推导式完全相同
+ 
+
+ 固定集合　frozenset
+   固定集合是不可变的，无序的，含有唯一元素的集合
+   固定集合就是不可变的集合
+   
+   作用：
+   　　固定集合可以作为字典的键，还可以作为集合的值
+   
+   固定集合的构造(创建)函数 frosenset
+   frozenset() 创建一个空的固定集合
+   frozenset(iterable)  用可迭代对象创建一个固定集合
+  
+    示例：
+    　　fz = frozenset()
+        fz = frozenset(range(10))  
+>>> fz = frozenset(range(10))
+>>> fz
+frozenset({0, 1, 2, 3, 4, 5, 6, 7, 8, 9})
+
+ 固定集合的运算：
+ 　　&交集　　|并集   -补集  ^对称补集
+    &=    ^=   -=  |=
+
+    in / not in 
+    >   >=   <  <=  !=
+    (以上运算等同于set中的用法)
+
+    固定集合的方法：
+    　　相当于集合的全部方法去掉修改集合的方法
+
+小结：
+　　数据类型：
+　　　不可变的数据类型:
+       int,float,complex,bool,str,tuple,frozenset,bytes
+    可变的数据类型：
+    　　list,dict,set,bytearray(字节数组)
+
+值：
+　None,False,True,....
+ 
+ 运算符：
+ 　+   -   *    /   //   %   **
+   +=  -=  *=  /=
+  is / is not 
+  in / in not
+  not and or  返回的是对象，而不是bool值
+  &    |     ^
+  &=   |=   ^=
+
+  + -
+  []/[::] 索引和切片
+
+  表达式：
+  　　1
+     1+2
+     len(L1)+len(L2)
+    条件表达式
+    　　x if x>y else y
+
+    全部的推导式：
+       list
+       [x for x in range(10)]
+       dict
+
+       set
+
+语句：
+   表达式语句:
+      print('hello')
+      '''abcd'''
+    赋值语句：
+    　　a = 10
+        a = b = c = 200
+        x,y,z = 100,200,300
+    del 语句
+    if 语句
+     while 语句
+     for 语句
+     break 语句
+     continue 语句
+     pass   语句
+
+     内建函数
+        用于容器的函数：
+          len(x)  max(x)  min(x) 
+          sum(x)  any(x)  all(x)
+
+        构造函数:
+          int(x)
+          float(x)
+          complex(x)
+          bool(x)
+          str(x)
+          list(x)
+          tuple(x)
+          dict(x)
+          set(x)
+          frozenset(x)
+   
+    数值型函数：
+    　　abs(x)
+       round(x,y)
+       pow(x,y,z=None)
+
+    字符串相关的函数：
+    　　bin(x)
+        oct(x)
+        hex(x)
+        chr(x)
+        ord(x)
+    可迭代对象相关的函数：
+    　range(start,end,step)
+     reverse(x)
+
+     输入输出相关的函数:
+       input(x)
+       print(...)
+
+　　其他:
+     type(x)
+     id(x)
+     help(x)
+
+
+函数　function
+   函数是可以重复执行的语句块，可以重复调用 
+   函数是面向过程编程的最小的单位
+
+　作用：
+　　　１．封装语句块，能够提高代码的重用性，
+　　　２．定义用户级别的函数
+
+ def 语句
+ 　　作用:
+      创建一个函数,用变量绑定这个函数
+    语法：
+    　def 函数名(形参列表):
+         语句块（代码块）
+     说明：
+     　　１．函数的名字就是语句块的名字
+     　　　２．函数名的命名规则与变量名相同（必须为表示符）
+     　　３．函数名是一个变量（不要轻易对其赋值）
+        4.形参列表是用户自定义的变量名，用来接收调用者传入的参数
+        ５．函数的自己的名字空间，在函数外部不可以访问函数内部的变量
+        　　　在函数内部可以访问函数外部的变量，但不能用赋值语句修改这些
+        　变量的绑定关系
+        ６．函数如果不传入参数，参数列表可以为空
+        ７．语句部分不能为空，如果为空需要填充pass语句
+
+  函数调用
+    语法：
+    　　函数名（[实际调用传递参数]）
+　　　　注：[]　代表内容可以省略
+　说明：
+　　　函数调用是一个表达式
+　　　如果函数内部没有terurn语句，则函数执行完返回None
+
+  return 语句
+  　　语法：
+  　　　return [表达式]
+     作用：
+     　　用于函数中，结束当前函数的执行，返回调用该函数的地方，同时返回一个对象的引用关系
+     说明：
+     　　return 语句后跟的表达式可以省略，省略后相当于return None
+       如果函数内部没有return 语句，则函数执行完最后一条语句后
+       　返回None （相当于在最后加了一条teruen None语句）
+
+　
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

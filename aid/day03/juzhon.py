@@ -1,0 +1,10 @@
+s1 = 'hello!'
+s2 = """i'm studing python!"""
+s3 = 'i like python! '
+s4 = '+--------------------------+'
+n=len(s4)-2
+s = print(s4)
+s = print('|'+s1.center(n)+'|')
+s = print('|'+s2.center(n)+'|')
+s = print('|'+s3.center(n)+'|')
+s = print(s4)
